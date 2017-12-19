@@ -1,0 +1,19 @@
+<h1 style="color:white", align="center">Welcome </h1>
+<h1 style="color:white", align="center">To the Fruit Stand</h1>
+<div class="login-page">
+  <div class="form">
+      <p>Login</p>
+      <%= form_tag({:action => 'login_attempt'}, {:class => "login-form"}) do %>
+        <p>Username or Email:</br> <%= text_field_tag(:username_or_email) %></p>
+        <p>Password:</br> <%= password_field_tag :login_password %></p>
+        <%= submit_tag("Log In", :class => "button") %>
+      <% end %>
+      <% if @login_error%>
+      <ul>
+        <li>*Invalid username or password
+      <ul>
+      <% end %>
+      <p> New user? Sign up here! </p>
+      <%=link_to "Sign Up", :controller => "users", :action => "new" %>
+  </div>
+</div>

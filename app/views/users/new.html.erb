@@ -1,0 +1,15 @@
+<h1 style="color:white;font-size:40px;font-family:Times", align="center"> Sign Up </h1>
+<%= form_for(:user, :url => {:controller => 'users', :action => 'create'}, :html => {:class => "form"}) do |f| %>
+  <p> Username: </br> <%= f.text_field :username %> </p>
+  <p> Email: </br> <%= f.text_field :email %> </p>
+  <p> Password: </br> <%= f.password_field :password %> </p>
+  <p> Passwrod Confirmation: </br> <%= f.password_field :password_comformation  %> </p>
+  <%= f.submit :Signup %>
+  <% if @user.errors.any? %>
+    <ul>
+    <% for message_error in @user.errors.full_messages %>
+      <li>* <%= message_error %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<%end %>

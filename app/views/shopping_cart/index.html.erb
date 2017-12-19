@@ -1,0 +1,99 @@
+<%= button_to "Logout", {:controller => 'sessions', :action => 'logout', :method => 'get'}%>
+<h1 style="color:white;font-size:40px;font-family:Times", align="center"> Welcome To The Fruit Stand <%= @user%> </h1>
+<p align="center"> <%= image_tag "fruit_stand.jpg"%> </p>
+<head>
+<style>
+
+table{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:nth-child(odd){background-color: white}
+
+tr:hover {background-color: #ddd;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #008080;
+  color: white;
+}
+</style>
+</head>
+
+
+
+<table style="float:left; width:50%;">
+    <th>fruit</th>
+    <th>price/lb</th>
+    <th>picture</th>
+    <th>Amount to order</th>
+  </thead>
+
+  <tbody>
+    <% @allItems.each do |item| %>
+    <tr>
+      <td> <%= item.name %> </td>
+      <td> <%= item.price %> </td>
+      <td> <%= image_tag(item.image, :size=> "150x150") %> </td>
+      <td>
+        <%= form_for @Cart, :url => {:action=>"handlePost"}, :html => {:method => "post"} do |f| %>
+          <%= f.hidden_field :name, :value => item.name%>
+          <%= f.hidden_field :price, :value => item.price%>
+          <%= f.hidden_field :user, :value => @user %>
+          <p>Amount <%= text_field_tag :amountInput, nil, :required => true %> </p>
+
+          <%= f.submit "add to cart"%></td>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+<table style="float:right; width:50%;">
+  <thead>
+    <th>fruit</th>
+    <th>Amount</th>
+    <th>price</th>
+    <th>Option</th>
+  </thead>
+
+  <tbody>
+      <% @ShopCart.each do |x| %>
+      <tr>
+        <td> <%= x.fuirt %> </td>
+        <td> <%= x.amount %> </td>
+        <td> <%= x.price %> </td>
+        <td>
+          <%= form_for @Cart, :url => {:action=>"handlePost"}, :html => {:method => "post"} do |f| %>
+            <%= f.hidden_field :name, :value => x.fuirt%>
+            <%= f.hidden_field :price, :value => x.price%>
+            <%= f.hidden_field :amount, :value => x.amount%>
+            <%= f.hidden_field :user, :value => @user %>
+            <%= f.submit "remove" %> </td>
+          <% end %>
+        </td>
+      <% end %>
+      </tr>
+  </tbody>
+  <tbody>
+    <thead>
+      <th>Total</th>
+    </thead>
+    <tr>
+      <% y = 0 %>
+      <% @ShopCart.each do |x| %>
+        <% y = y + x.price %>
+      <% end %>
+      <td> <%= y %> </td>
+    </tr>
+  </tbody>
+</table>
